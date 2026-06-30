@@ -61,8 +61,9 @@ class ServiceWorkerManager {
     }
 
     try {
-      const registration = await navigator.serviceWorker.register("/sw.js", {
-        scope: "/",
+      const base = import.meta.env.BASE_URL;
+      const registration = await navigator.serviceWorker.register(`${base}sw.js`, {
+        scope: base,
       });
 
       this.registration = registration;
