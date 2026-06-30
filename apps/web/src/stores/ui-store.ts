@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { subscribeWithSelector, persist } from "zustand/middleware";
+import type { Language } from "../utils/translations";
 
 export type PanelId =
   | "mediaLibrary"
@@ -58,6 +59,7 @@ export interface KeyboardShortcuts {
 }
 
 export interface UIState {
+  language: Language;
   selectedItems: SelectionItem[];
   lastSelectedItem: SelectionItem | null;
   effectApplicationClipId: string | null;
@@ -134,6 +136,7 @@ export interface UIState {
   setKeyframeEditorOpen: (open: boolean) => void;
   toggleKeyframeEditor: () => void;
   setInspectorActiveTab: (tabId: string) => void;
+  setLanguage: (language: Language) => void;
   exportState: {
     isExporting: boolean;
     progress: number;
@@ -197,6 +200,7 @@ export const useUIStore = create<UIState>()(
   subscribeWithSelector(
     persist(
       (set, get) => ({
+        language: "en",
         selectedItems: [],
         lastSelectedItem: null,
         effectApplicationClipId: null,
@@ -559,6 +563,10 @@ export const useUIStore = create<UIState>()(
           set({ inspectorActiveTab: tabId });
         },
 
+        setLanguage: (language: Language) => {
+          set({ language });
+        },
+
         setShowWelcomeScreen: (show: boolean) => {
           set({ showWelcomeScreen: show });
         },
@@ -581,6 +589,7 @@ export const useUIStore = create<UIState>()(
           return state;
         },
         partialize: (state) => ({
+          language: state.language,
           snapSettings: state.snapSettings,
           panels: state.panels,
           shortcuts: state.shortcuts,
