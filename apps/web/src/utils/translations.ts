@@ -1,6 +1,6 @@
 export type Language = "en" | "tr";
 
-type TranslationKey =
+export type TranslationKey =
   | "app.name"
   | "welcome.heading"
   | "welcome.subtitle"

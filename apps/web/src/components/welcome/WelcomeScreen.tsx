@@ -7,7 +7,6 @@ import {
   Monitor,
   Square,
   FolderOpen,
-  Globe,
 } from "lucide-react";
 import { Button, Switch, Label } from "@openreel/ui";
 import { useProjectStore } from "../../stores/project-store";
@@ -149,7 +148,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ initialTab }) => {
   );
   const skipWelcomeScreen = useUIStore((state) => state.skipWelcomeScreen);
   const language = useUIStore((s) => s.language);
-  const setLanguage = useUIStore((s) => s.setLanguage);
   const createNewProject = useProjectStore((state) => state.createNewProject);
   const { navigate } = useRouter();
   const { track } = useAnalytics();
@@ -262,14 +260,6 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({ initialTab }) => {
         <div className="w-full max-w-3xl">
           <div className="flex flex-col items-center text-center mb-12">
             <div className="flex items-center gap-3 mb-6">
-              <button
-                onClick={() => setLanguage(language === "en" ? "tr" : "en")}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-background-tertiary border border-border hover:bg-background-secondary hover:border-primary/40 transition-all duration-200 text-xs font-medium text-text-muted hover:text-text-primary"
-                title={language === "en" ? "Türkçe'ye geç" : "Switch to English"}
-              >
-                <Globe size={14} />
-                <span>{language === "en" ? "EN" : "TR"}</span>
-              </button>
               <div className="w-12 h-12 text-primary">
                 <OpenReelLogo className="w-full h-full" />
               </div>

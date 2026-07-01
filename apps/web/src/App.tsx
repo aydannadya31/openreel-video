@@ -5,6 +5,7 @@ import { SearchModal } from "./components/editor/SearchModal";
 import { MobileBlocker } from "./components/MobileBlocker";
 import { WelcomeScreen } from "./components/welcome";
 import { RecoveryDialog } from "./components/welcome/RecoveryDialog";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { SharePage } from "./pages/SharePage";
 import { useUIStore } from "./stores/ui-store";
 import { useProjectStore } from "./stores/project-store";
@@ -136,6 +137,7 @@ function App() {
     <TooltipProvider>
       <div className="h-screen w-screen bg-background text-text-primary overflow-hidden">
         <MobileBlocker />
+        <LanguageSwitcher />
         {isSharePage ? (
           <SharePage shareId={params.shareId!} />
         ) : showWelcome ? (
