@@ -4,7 +4,7 @@
 
 OpenReel Video is a fully-featured browser-based video editor that runs entirely client-side. Built with React, TypeScript, WebCodecs, and WebGPU for professional-grade video editing without the need for expensive software or cloud processing.
 
-**[Try it Live](https://openreel.video)** | **[Documentation](CONTRIBUTING.md)** | **[Discussions](https://github.com/Augani/openreel-video/discussions)** | **[Twitter](https://x.com/python_xi)**
+**[Try it Live](aydannadya31.github.io/openreel-video/)** | **[Documentation](CONTRIBUTING.md)** 
 
 ![OpenReel Editor](https://img.shields.io/badge/Lines%20of%20Code-130k+-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Status](https://img.shields.io/badge/Status-Beta-orange) ![Open Source](https://img.shields.io/badge/Open%20Source-100%25-brightgreen)
 
@@ -92,13 +92,13 @@ OpenReel Video is a fully-featured browser-based video editor that runs entirely
 ## Quick Start
 
 ### Try Online
-Visit **[openreel.video](https://openreel.video)** to start editing immediately.
+Visit **[openreel.video](aydannadya31.github.io/openreel-video/)** to start editing immediately.
 
 ### Run Locally
 
 ```bash
 # Clone the repository
-git clone https://github.com/Augani/openreel-video.git
+git clone https://github.com/aydannadya31/openreel-video//openreel-video.git
 cd openreel-video
 
 # Install dependencies (requires Node.js 18+)
@@ -215,7 +215,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 **Development workflow:**
 ```bash
 # Fork and clone
-git clone https://github.com/Augani/openreel-video.git
+git clone https://github.com/aydannadya31/openreel-video/openreel-video.git
 
 # Create feature branch
 git checkout -b feat/your-feature
