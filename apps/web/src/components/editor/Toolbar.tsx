@@ -50,6 +50,7 @@ import { SettingsDialog } from "./settings/SettingsDialog";
 import { toast } from "../../stores/notification-store";
 import { useSettingsStore } from "../../stores/settings-store";
 import { useAnalytics, AnalyticsEvents } from "../../hooks/useAnalytics";
+import { t } from "../../utils/translations";
 import { startTour, ONBOARDING_KEY, startMoGraphTour, MOGRAPH_TOUR_KEY } from "./tour";
 import {
   DropdownMenu,
@@ -95,6 +96,7 @@ export const Toolbar: React.FC = () => {
     togglePanel,
   } = useUIStore();
   const { mode: themeMode, toggleTheme } = useThemeStore();
+  const language = useUIStore((s) => s.language);
   const { navigate } = useRouter();
   const { openSettings } = useSettingsStore();
   const [isExportOpen, setIsExportOpen] = useState(false);
@@ -516,9 +518,10 @@ export const Toolbar: React.FC = () => {
   const handleRecordingComplete = useCallback(
     async (screenBlob: Blob, webcamBlob?: Blob) => {
       if (!screenBlob || screenBlob.size === 0) {
+        const lang = useUIStore.getState().language;
         toast.error(
-          "Recording failed",
-          "No video data was captured. Please try again.",
+          t("recording.failedTitle", lang),
+          t("recording.failedDesc", lang),
         );
         return;
       }
@@ -557,14 +560,15 @@ export const Toolbar: React.FC = () => {
       }
 
       if (importCount > 0) {
+        const lang = useUIStore.getState().language;
         toast.success(
-          `${importCount} recording${importCount > 1 ? "s" : ""} imported!`,
+          `${importCount} ${t("recording.importSuccess", lang)}`,
           webcamBlob && webcamBlob.size > 0
-            ? "Screen and webcam added to assets. Use the timeline to composite them."
-            : "Screen recording added to assets.",
+            ? t("recording.screenAndWebcam", lang)
+            : t("recording.screenOnly", lang),
         );
       } else if (errors.length > 0) {
-        toast.error("Import failed", errors.join(". "));
+        toast.error(t("recording.importFailedTitle", useUIStore.getState().language), errors.join(". "));
       }
     },
     [importMedia],
@@ -583,7 +587,7 @@ export const Toolbar: React.FC = () => {
     separator?: boolean;
   }> = [
     {
-      label: "MP4 Standard",
+      label: t("export.mp4Standard", language),
       icon: Zap,
       desc: `${projectRes} H.264 - Web & social`,
       type: "mp4",
@@ -600,26 +604,26 @@ export const Toolbar: React.FC = () => {
       ? []
       : [
           {
-            label: "4K Standard",
+            label: t("export.k4Standard", language),
             icon: FileVideo,
             desc: "3840×2160 - YouTube 4K",
             type: "4k" as ExportType,
           },
         ]),
     {
-      label: "1080p High Quality",
+      label: t("export.p1080High", language),
       icon: FileVideo,
       desc: "1920×1080 30fps - High bitrate",
       type: "1080p-high",
     },
     {
-      label: "1080p 60fps",
+      label: t("export.p1080p60", language),
       icon: FileVideo,
       desc: "1920×1080 - Smooth playback",
       type: "1080p-60",
     },
     {
-      label: "Audio Only (WAV)",
+      label: t("export.audioOnly", language),
       icon: Music,
       desc: "Uncompressed audio",
       type: "wav",
@@ -633,7 +637,7 @@ export const Toolbar: React.FC = () => {
         <button
           onClick={() => navigate("welcome")}
           className="flex items-center gap-1.5 pr-1.5"
-          title="Back to home"
+          title={t("toolbar.backToHome", language)}
         >
           <span className="w-[11px] h-[11px] rounded-full bg-[oklch(0.7_0.18_25)]" />
           <span className="w-[11px] h-[11px] rounded-full bg-[oklch(0.78_0.14_80)]" />
@@ -644,7 +648,7 @@ export const Toolbar: React.FC = () => {
           <span className="w-[5px] h-[5px] rounded-full bg-accent" />
           {exportState.isExporting
             ? `Exporting… ${Math.round(exportState.progress)}%`
-            : `Auto saved: ${autosaveLabel}`}
+            : `${t("toolbar.autoSaved", language)} ${autosaveLabel}`}
         </span>
       </div>
 
@@ -677,12 +681,12 @@ export const Toolbar: React.FC = () => {
             <button
               onClick={() => openModal("search")}
               className="w-[26px] h-[26px] grid place-items-center rounded-md text-fg-2 hover:bg-hover hover:text-fg transition-colors"
-              data-tip="Search (⌘K)"
+              data-tip={t("toolbar.searchPlaceholder", language)}
             >
               <Search size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Search tools, effects, or ask AI… (⌘K)</TooltipContent>
+          <TooltipContent>{t("toolbar.searchPlaceholder", language)}</TooltipContent>
         </Tooltip>
 
         {/* Undo / Redo */}
@@ -695,7 +699,7 @@ export const Toolbar: React.FC = () => {
               <Undo2 size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Undo (⌘Z)</TooltipContent>
+          <TooltipContent>{t("toolbar.undo", language)}</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -707,7 +711,7 @@ export const Toolbar: React.FC = () => {
               <Redo2 size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Redo (⇧⌘Z)</TooltipContent>
+          <TooltipContent>{t("toolbar.redo", language)}</TooltipContent>
         </Tooltip>
 
         <div className="w-px h-4 bg-border mx-1" />
@@ -726,7 +730,7 @@ export const Toolbar: React.FC = () => {
               <History size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Action history</TooltipContent>
+          <TooltipContent>{t("toolbar.actionHistory", language)}</TooltipContent>
         </Tooltip>
 
         {/* Keyframe editor (moved here from old toolbar) */}
@@ -743,7 +747,7 @@ export const Toolbar: React.FC = () => {
               <Diamond size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Keyframe editor</TooltipContent>
+          <TooltipContent>{t("toolbar.keyframeEditor", language)}</TooltipContent>
         </Tooltip>
 
         {/* Audio mixer (moved) */}
@@ -760,7 +764,7 @@ export const Toolbar: React.FC = () => {
               <Music size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Audio mixer</TooltipContent>
+          <TooltipContent>{t("toolbar.audioMixer", language)}</TooltipContent>
         </Tooltip>
 
         {/* Comments placeholder (matches mockup) */}
@@ -773,7 +777,7 @@ export const Toolbar: React.FC = () => {
               <MessageSquare size={14} />
             </button>
           </TooltipTrigger>
-          <TooltipContent>Project JSON / Comments</TooltipContent>
+          <TooltipContent>{t("toolbar.projectJson", language)}</TooltipContent>
         </Tooltip>
 
         <div className="w-px h-4 bg-border mx-1" />
@@ -790,37 +794,37 @@ export const Toolbar: React.FC = () => {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem onClick={toggleTheme} className="gap-2">
               {themeMode === "light" ? <Sun size={14} /> : themeMode === "dark" ? <Moon size={14} /> : <SunMoon size={14} />}
-              <span className="flex-1">Theme: {themeMode}</span>
+              <span className="flex-1">{t("toolbar.theme", language)} {themeMode}</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => openSettings()} className="gap-2">
               <Settings size={14} />
-              <span>Settings & API keys</span>
+              <span>{t("toolbar.settings", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setIsRecorderOpen(true)} className="gap-2">
               <Circle size={14} className="fill-current text-status-error" />
-              <span>Screen recorder</span>
+              <span>{t("toolbar.screenRecorder", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleStartTour} className="gap-2">
               <Play size={14} />
-              <span>Editor tour</span>
+              <span>{t("toolbar.editorTour", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleStartMoGraphTour} className="gap-2">
               <Sparkles size={14} className="text-purple-400" />
-              <span>Animation & effects tour</span>
+              <span>{t("toolbar.mographTour", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 text-fg-muted">
               <HelpCircle size={14} />
-              <span>Help & shortcuts (press ?)</span>
+              <span>{t("toolbar.helpShortcuts", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="gap-2 text-fg-muted">
               <FileCode size={14} />
-              <span>Project JSON</span>
+              <span>{t("toolbar.projectJsonMenu", language)}</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="gap-2 text-fg-muted">
               <Command size={14} />
-              <span>⌘K to search</span>
+              <span>{t("toolbar.searchShortcut", language)}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -850,7 +854,7 @@ export const Toolbar: React.FC = () => {
         ) : exportState.complete ? (
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-accent-soft text-accent text-[12.5px]">
             <Check size={13} />
-            <span className="font-medium">Saved!</span>
+            <span className="font-medium">{t("toolbar.saved", language)}</span>
           </div>
         ) : (
           <DropdownMenu open={isExportOpen} onOpenChange={setIsExportOpen}>
@@ -859,7 +863,7 @@ export const Toolbar: React.FC = () => {
                 className="relative inline-flex items-center gap-1.5 px-3.5 py-[5px] rounded-md bg-accent text-accent-fg font-semibold text-[12.5px] shadow-glow hover:bg-accent-strong transition-colors"
               >
                 <Upload size={13} />
-                <span>Export</span>
+                <span>{t("toolbar.export", language)}</span>
                 <ChevronDown size={12} className={`transition-transform ${isExportOpen ? "rotate-180" : ""}`} />
               </button>
             </DropdownMenuTrigger>
@@ -894,7 +898,7 @@ export const Toolbar: React.FC = () => {
                           {option.label}
                           {option.recommended && (
                             <span className="ml-2 text-[10px] bg-accent-soft text-accent px-1.5 py-0.5 rounded">
-                              Best match
+                              {t("export.bestMatch", language)}
                             </span>
                           )}
                         </div>
@@ -903,7 +907,7 @@ export const Toolbar: React.FC = () => {
                         </div>
                         {exportEstimates.get(option.type) && (
                           <div className="text-[10px] text-fg-3 mt-1">
-                            Est. {exportEstimates.get(option.type)?.formatted}
+                            {t("export.est", language)} {exportEstimates.get(option.type)?.formatted}
                           </div>
                         )}
                       </div>
@@ -921,10 +925,10 @@ export const Toolbar: React.FC = () => {
                   </div>
                   <div className="flex-1">
                     <div className="text-sm font-medium text-accent">
-                      Custom export…
+                      {t("export.customExport", language)}
                     </div>
                     <div className="text-xs text-fg-muted mt-0.5">
-                      Full settings with AI upscaling
+                      {t("export.customDesc", language)}
                     </div>
                   </div>
                   <MoreHorizontal size={14} className="text-fg-muted" />
@@ -965,7 +969,7 @@ export const Toolbar: React.FC = () => {
           />
           <div className="fixed top-topbar right-0 bottom-0 w-80 bg-bg-1 border-l border-border z-50 shadow-lg animate-in slide-in-from-right duration-200">
             <div className="flex items-center justify-between p-3 border-b border-border">
-              <span className="text-sm font-medium text-fg">Action history</span>
+              <span className="text-sm font-medium text-fg">{t("toolbar.actionHistory", language)}</span>
               <button
                 onClick={() => setIsHistoryOpen(false)}
                 className="p-1.5 rounded hover:bg-hover text-fg-3 hover:text-fg transition-colors"
