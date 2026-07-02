@@ -4,7 +4,7 @@
 
 OpenReel Video is a fully-featured browser-based video editor that runs entirely client-side. Built with React, TypeScript, WebCodecs, and WebGPU for professional-grade video editing without the need for expensive software or cloud processing.
 
-**[Try it Live](aydannadya31.github.io/openreel-video/)** | **[Documentation](CONTRIBUTING.md)** 
+**[Try it Live](https://aydannadya31.github.io/openreel-video/#/editor)** | **[Documentation](CONTRIBUTING.md)** 
 
 ![OpenReel Editor](https://img.shields.io/badge/Lines%20of%20Code-130k+-blue) ![License](https://img.shields.io/badge/License-MIT-green) ![Status](https://img.shields.io/badge/Status-Beta-orange) ![Open Source](https://img.shields.io/badge/Open%20Source-100%25-brightgreen)
 
